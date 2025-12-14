@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Modern E-Commerce</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Ecom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+       
+        <div class="nav">
+            <div class="nav-logo"><i class="fa fa-shopping-cart"></i>ShopEase</div>
+            <nav class="nav-main">
+                <a href="#" id="nav-home"><i class="fa fa-home"></i>Home</a>
+                <a href="#" id="nav-products"> <i class="fa fa-box"></i>Products</a>
+                <a href="#" id="nav-orders"><i class="fa fa-list-alt"></i>Orders</a> 
+                <a href="#" id="nav-support"><i class="fa fa-question-circle"></i> Support</a>
+                <a href="#" id="nav-cart"><i class="fa fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a>
+                <a href="#" id="nav-wishlist"><i class="fa fa-heart"></i> Wishlist</a>
+                <a href="#" id="nav-account"><i class="fa fa-user-circle"></i> Account</a>
+                <a href="#"  class ="nav-categories" id="nav-categories"></a>
+                <a href="#" id="nav-notifications"><i class="fa fa-bell"></i></a>
+                <a href="#" id="logout-btn" style="display:none;"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            </nav>
+            <div class="nav-actions">
+                <select id="currency-select" style="padding: 0.3rem; border-radius: 6px;">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="INR">INR (₹)</option>
+                    <option value="GBP">GBP (£)</option>
+                </select>
+                
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home-section" class="section">
+            <div class="hero">
+                <h1>Shop Smart, Live Better.</h1>
+                <p>Discover the latest electronics, home goods, and books.</p>
+                <button class="shop-now-btn" id="shop-now-btn">Shop Now</button>
+            </div>
+             <section id="recently-viewed-section">
+            <h3>Recently Viewed</h3>
+            <div class="products-grid" id="recently-viewed-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));"></div>
+        </section>
+            <h2 style="margin-top:2rem;">Featured Products</h2>
+            <div class="products-grid" id="featured-products">
+                </div>
+        </section>
+
+        <section id="products-section" class="section" style="display: none;">
+            <h2 id="Product-section-tittle" class="product-sec-tittle">All Products</h2>
+            <div class="controls-bar">
+                <input style="flex-basis:40%" type="text" id="search-input" placeholder="Search products...">
+                <select id="category-select">
+                    </select>
+                <select id="sort-select">
+                    <option value="name">Sort by Name</option>
+                    <option value="price-low-high">Price: Low to High</option>
+                    <option value="price-high-low">Price: High to Low</option>
+                </select>
+                <button id="filter-btn">Filter</button>
+            </div>
+            <div class="products-grid" id="products-grid">
+                </div>
+        </section>
+
+        <div class="modal" id="cart-modal">
+            <h2>Your Cart</h2>
+            <ul id="cart-list" class="list-style">
+                </ul>
+            
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #eee;">
+                <input type="text" id="coupon-input" placeholder="Enter coupon code (e.g., SHOP20)" style="padding:0.5rem;border-radius:6px;border:1px solid #ccc;width:60%;">
+                <button id="apply-coupon-btn" style="background:var(--secondary);color:#fff;border:none;border-radius:6px;padding:0.5rem 1rem;cursor:pointer;">Apply</button>
+                <div id="coupon-msg" style="margin-top:0.5rem;font-size:0.9em;"></div>
+            </div>
+            
+            <div id="cart-summary" style="margin-top: 1rem; font-size: 1.2rem; font-weight: 700;"></div>
+            
+            <div style="margin-top:1rem; display:flex; gap: 1rem;">
+                <button id="checkout-btn" style="background:var(--primary);color:#fff;border:none;border-radius:6px;padding:0.7rem 1.5rem;cursor:pointer;flex:1;">Proceed to Checkout</button>
+                <button id="close-cart-btn" class="modal-close" style="background:#ddd;flex:1;border:none;border-radius:6px;padding:0.7rem 1.5rem;cursor:pointer;">Continue Shopping</button>
+            </div>
+        </div>
+
+        <div class="modal" id="wishlist-modal">
+            <h2>Your Wishlist</h2>
+            <ul id="wishlist-list" class="list-style">
+                </ul>
+            <button id="close-wishlist-btn" class="modal-close">Close</button>
+        </div>
+
+        <div class="modal" id="orders-modal">
+            <h2>My Orders</h2>
+            <ul id="orders-list" class="list-style" style="flex-direction:column;">
+                </ul>
+            <button id="close-orders-btn" class="modal-close">Close</button>
+        </div>
+
+        <div class="modal" id="account-modal">
+            <h2>My Account</h2>
+            <form style="display:flex;flex-direction:column;gap:1rem;">
+                <label for="user-name">Name:</label>
+                <input type="text" id="user-name" placeholder="Your Name" required>
+                <label for="user-email">Email:</label>
+                <input type="email" id="user-email" placeholder="Your Email" required>
+                <button type="button" id="save-user-btn" style="background:var(--primary);color:#fff;border:none;border-radius:6px;padding:0.7rem 1rem;cursor:pointer;margin-top:1rem;">Save</button>
+            </form>
+            <button id="show-addresses-btn" style="background:#555;color:#fff;border:none;border-radius:6px;padding:0.5rem 1rem;cursor:pointer;margin-top:1rem;">My Addresses</button>
+            <button id="close-account-btn" class="modal-close">Close</button>
+        </div>
+
+        <div class="modal" id="product-details-modal">
+    <div id="product-details-content">
+        <div class="product-gallery-container">
+            <img id="main-product-image" src="" alt="Product Main View">
+            
+            <div id="thumbnail-gallery" class="thumbnail-gallery">
+                </div>
+        </div>
+
+        </div>
+    <button id="close-details-btn" class="modal-close">Close</button>
+</div>
+
+        <div class="modal" id="notifications-modal">
+            <h2>Notifications</h2>
+            <ul id="notifications-list" class="list-style" style="flex-direction:column;"></ul>
+            <button id="close-notifications-btn" class="modal-close">Close</button>
+        </div>
+        
+        <div class="modal" id="address-modal">
+            <h2>Address Book</h2>
+            <ul id="address-list" class="list-style" style="flex-direction:column;"></ul>
+            <button id="add-address-btn" style="background:var(--primary);color:#fff;border:none;border-radius:6px;padding:0.5rem 1rem;cursor:pointer;margin-bottom:1rem;">Add New Address</button>
+            <button id="close-address-btn" class="modal-close">Close</button>
+        </div>
+
+        <div class="modal" id="address-form-modal">
+            <h2>Add New Address</h2>
+            <form id="address-form" style="display:flex;flex-direction:column;gap:0.7rem;">
+                <input type="text" name="line1" placeholder="Address Line 1" required>
+                <input type="text" name="line2" placeholder="Address Line 2 (Optional)">
+                <input type="text" name="city" placeholder="City" required>
+                <input type="text" name="state" placeholder="State/Province" required>
+                <input type="text" name="zip" placeholder="Zip/Postal Code" required>
+                <input type="text" name="country" placeholder="Country" required>
+                <button type="button" id="save-address-btn" style="background:var(--secondary);color:#fff;border:none;border-radius:6px;padding:0.7rem 1rem;cursor:pointer;margin-top:1rem;">Save Address</button>
+            </form>
+            <button class="modal-close" style="margin-top:1rem;">Cancel</button>
+        </div>
+
+        <div class="modal" id="qa-modal">
+            <h2>Product Q&A</h2>
+            <div style="margin-bottom:1rem;">
+                <label for="qa-product-select" style="font-weight:600;">Select Product:</label>
+                <select id="qa-product-select" style="padding:0.5rem;border-radius:6px;border:1px solid #ccc;width:100%;margin-top:0.5rem;"></select>
+            </div>
+            <ul id="qa-list" class="list-style" style="flex-direction:column;"></ul>
+            <div style="margin-top:2rem;border-top:1px solid #eee;padding-top:1rem;display:flex;gap:0.5rem;">
+                <input type="text" id="qa-question-input" placeholder="Ask a question..." style="padding:0.5rem;border-radius:6px;border:1px solid #ccc;flex:1;">
+                <button id="qa-ask-btn" style="background:var(--secondary);color:#fff;border:none;border-radius:6px;padding:0.5rem 1rem;cursor:pointer;">Ask</button>
+            </div>
+            <button id="close-qa-btn" class="modal-close">Close</button>
+        </div>
+
+        <div class="modal" id="support-modal-new"> <h2>Support & Help</h2>
+            <p>Contact us at <a href="mailto:support@shopease.com">support@shopease.com</a> or call 1800-123-456.</p>
+            <p>We are available 24/7 for all your shopping needs.</p>
+            <button id="close-support-btn-new" class="modal-close">Close</button>
+        </div>
+
+        
+        
+    </main>
+
+    <footer>
+        <section id="newsletter-section">
+            <form id="newsletter-form">
+                <input type="email" id="newsletter-email" placeholder="Subscribe to our newsletter" required>
+                <button type="submit">Subscribe</button>
+            </form>
+            <span id="newsletter-msg"></span>
+            <p>&copy; 2025 ShopEase. All rights reserved.</p>
+        </section>
+        
+    </footer>
+    <div class="overlay" id="overlay"></div> 
+    <div id="notification-container"></div>
+    <script src="Ecom1.js"></script>
+</body>
+</html>
