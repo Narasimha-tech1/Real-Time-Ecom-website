@@ -56,7 +56,7 @@ header {
   padding: 0.5rem 2rem;
   background: #fff;
   box-shadow: var(--shadow);
-  position: sticky;
+  /* REMOVED: position: sticky; - Fixed header is already handled by 'header' */
   top: 0;
   z-index: 10;
 }
@@ -136,10 +136,10 @@ header {
 main {
   /* This is the most important change for the main scrolling area */
   flex-grow: 1; /* Allows 'main' to fill the space between header and footer */
-  /* ADDED: top padding to account for the fixed header height */
-  padding-top: 5rem; 
   overflow-y: auto; /* Ensures scrolling happens within this 'main' section */
   padding: 1rem 2rem; /* Keep existing padding */
+  /* FIX 1: Add sufficient padding-top to clear the fixed desktop header */
+  padding-top: 5rem;
 }
 
 .banner {
@@ -488,12 +488,26 @@ footer {
   flex-shrink: 0; /* Prevents the footer from shrinking */
 }
 
+/* Base mobile media query */
 @media (max-width: 700px) {
-  .nav { flex-direction: column; gap: 0.5rem; padding: 1rem; }
-  .nav-main { flex-direction: column; gap: 0.5rem; }
-  .products-grid { grid-template-columns: 1fr; }
-  main { padding: 0 0.5rem; }
+  .nav { 
+    flex-direction: column; 
+    gap: 0.5rem; 
+    padding: 1rem; 
+  }
+  .nav-main { 
+    flex-direction: column; 
+    gap: 0.5rem; 
+  }
+  .products-grid { 
+    grid-template-columns: 1fr; 
+  }
+  /* FIX 2: Increase padding-top to clear the taller, stacked fixed header */
+  main { 
+    padding: 8rem 0.5rem 1rem 0.5rem; 
+  }
 }
+
 /* --- Notification Badge (for new nav-notifications) --- */
 .badge {
     position: absolute;
@@ -619,92 +633,4 @@ footer {
     font-size: 2rem;
     font-weight: 700;
    margin-top: 5rem;
-}
-
-/* --- NEW MOBILE-SPECIFIC STYLES --- */
-
-@media (max-width: 768px) {
-    /* Main Layout Adjustments */
-    main {
-        padding: 1rem 0.5rem; /* Reduce padding on main content */
-        /* Adjusted padding-top to account for the larger, stacked header on mobile */
-        padding-top: 130px; 
-    }
-    
-    /* Hero Section */
-    .hero h1 {
-        font-size: 1.8rem;
-    }
-    .hero p {
-        font-size: 1rem;
-    }
-    
-    /* Navigation Bar Improvements */
-    header {
-        position: fixed;
-        width: 100%;
-    }
-    .nav {
-        flex-direction: column; /* Stack logo, main-nav, and actions */
-        padding: 0.5rem 1rem;
-    }
-    .nav-main {
-        flex-wrap: wrap; /* Allow nav links to wrap */
-        justify-content: center;
-        width: 100%;
-        gap: 0.5rem;
-        padding-top: 0.5rem;
-        border-top: 1px solid #f1f1f1;
-    }
-    .nav-main a {
-        padding: 0.3rem 0.5rem;
-        font-size: 0.85rem;
-    }
-    .nav-actions {
-        width: 100%;
-        justify-content: center;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #f1f1f1;
-    }
-    
-    /* Product Controls */
-    .controls-bar {
-        flex-direction: column; /* Stack search, filter, and sort vertically */
-        align-items: stretch;
-        gap: 0.75rem;
-    }
-    .controls-bar input, .controls-bar select, .controls-bar button {
-        flex-basis: 100% !important; /* Make controls full width */
-        width: 100%;
-    }
-    
-    /* Modals */
-    .modal {
-        width: 95%; /* Make modal nearly full width */
-        max-height: 90vh; /* Limit height */
-        overflow-y: auto; /* Enable scrolling within the modal content */
-        padding: 1rem; /* Reduce modal padding */
-    }
-
-    /* Cart/Wishlist Lists */
-    #cart-list li, #wishlist-list li, #orders-list li, #address-list li, #notifications-list li {
-        flex-wrap: wrap; /* Allow list items to wrap */
-        align-items: flex-start;
-    }
-    
-    #cart-list li span, #wishlist-list li span {
-        font-size: 0.9em;
-    }
-    
-    /* Product Card Details in Modal */
-    #product-details-content {
-        flex-direction: column;
-    }
-    .product-gallery-container {
-        max-width: 100%;
-        margin-bottom: 1rem;
-    }
-    #main-product-image {
-        height: 250px;
-    }
 }
