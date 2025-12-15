@@ -116,6 +116,43 @@ function saveWishlist() {
 }
 
 // ----------------------------------------------------------------------
+// --- User Management Functions (Moved to top level for accessibility) ---
+// ----------------------------------------------------------------------
+
+/**
+ * Retrieves user login details from localStorage.
+ * @returns {object} An object containing user data.
+ */
+function getLoggedInUser() {
+    return {
+        email: localStorage.getItem('userEmail'),
+        username: localStorage.getItem('userName'),
+        isLoggedIn: localStorage.getItem('isLoggedIn') === 'true'
+    };
+}
+
+/**
+ * Clears session and redirects user to the login page.
+ * @param {Event} e The click event.
+ */
+function handleLogout(e) {
+    if(e) e.preventDefault(); 
+    // 1. Clear user data
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('isLoggedIn');
+    
+    // 2. Show a notification (Assuming showNotification exists)
+    // If you don't have showNotification, you can remove this line.
+    if (typeof showNotification === 'function') {
+        showNotification('Logged out successfully.'); 
+    }
+    
+    // 3. Redirect back to login page
+    window.location.href = 'login.html'; 
+}
+
+// ----------------------------------------------------------------------
 // --- Initialization (MODIFIED for Auto-Load) ---
 // ----------------------------------------------------------------------
 
@@ -171,6 +208,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Show Home by default
     showSection('home-section');
+    
+    // --- NEW LOGIN/LOGOUT INTEGRATION START ---
+    
+    // 1. Setup logout listener for the new navigation link
+    // FIX: Ensure the listener targets the correct element and calls the now-global function
+    const logoutBtn = $('nav-logout'); 
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout); 
+    }
+
+    // 2. Display the logged-in username in the header (Username Visual)
+    const user = getLoggedInUser();
+    const userDisplayElement = $('user-display'); 
+    
+    if (user.isLoggedIn && userDisplayElement) {
+        // This assumes you added the <span id="user-display"> element in Ecom.html
+        userDisplayElement.textContent = `Welcome, ${user.username || 'User'}!`;
+    } else if (userDisplayElement) {
+        // Hide the element or show a generic message if not logged in (though Ecom.html should redirect)
+        userDisplayElement.textContent = 'Guest'; 
+    }
+    
+    // --- NEW LOGIN/LOGOUT INTEGRATION END ---
 });
 
 // --- Navigation ---
@@ -183,7 +243,8 @@ function setupNavigation() {
     $('nav-wishlist').onclick = () => showModal('wishlist-modal');
     $('nav-account').onclick = () => showModal('account-modal');
     $('nav-notifications').onclick = () => showModal('notifications-modal');
-    $('logout-btn').onclick = () => { /* ...logout logic... */ };
+    // REMOVED: Redundant/Commented out logout logic here, handled by DOMContentLoaded
+    // $('logout-btn').onclick = () => { /* ...logout logic... */ }; 
     $('shop-now-btn').onclick = () => showSection('products-section');
 }
 
@@ -710,3 +771,5 @@ function showNotification(msg) {
         }, 300);
     }, 3000);
 }
+
+// REMOVED: The extra closing brace '}' that was wrapping the last few functions and causing issues.
